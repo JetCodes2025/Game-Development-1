@@ -3,7 +3,7 @@ import random
 
 TITLE = "Quiz Master"
 HEIGHT = 900
-WIDTH = 650
+WIDTH = 900
 
 marquee_box = Rect((0,0),(900,80))
 question_box = Rect((20,100),(750,150))
@@ -18,13 +18,13 @@ question = []
 current_question = []
 score = []
 time_left = 25
-marquee_message = ""
+marquee_message = "Welcome to Quiz Master!!"
 is_game_over = False
 question_count = 0
 question_index = 0
 marquee_x = WIDTH
 
-def load_questions(filename = "Question.txt"):
+def load_questions(filename = "Questions.txt"):
     global questions
     with open(filename,"r") as file:
         for line in file:
@@ -37,6 +37,7 @@ def next_question():
     global current_question,question_index,time_left,is_game_over
     if question_index < len(questions):
         current_question = questions[question_index]
+        question_index +=1
         time_left = 15
     else:
         is_game_over = True
@@ -53,7 +54,7 @@ def draw():
         screen.draw.textbox(current_question[0],question_box,color="black")
 
         for i, box in enumerate(answer_boxes):
-            screen.draw.filled_Rect(box,"pink")
+            screen.draw.filled_rect(box,"pink")
             screen.draw.textbox(current_question[i+1],box,color="black")
 
         screen.draw.filled_rect(timer_box,"purple")
@@ -87,7 +88,7 @@ def on_mouse_down(pos):
         if box.collidepoint(pos):
             if int(current_question[5]) == i + 1:
                 score += 1
-            nest_question()
+            next_question()
             return
     if skip_box.collidepoint(pos):
         next_question()
